@@ -31,24 +31,20 @@
       <article class="panel map-panel">
         <div class="panel-head">
           <div>
-            <h2>Live Floor Map</h2>
-            <p>10 m × 8 m simulated floor area</p>
+            <h2>South Block • Ground Floor</h2>
+            <p>Live asset localization on the South Block floor plan</p>
           </div>
           <span class="badge" id="lastUpdate">Waiting for data</span>
         </div>
-        <div id="floorMap" class="floor-map">
-          <div class="zone storage-zone"><span>STORAGE</span></div>
-          <div class="zone restricted-zone"><span>RESTRICTED</span></div>
-          <div class="anchor a1">A1</div>
-          <div class="anchor a2">A2</div>
-          <div class="anchor a3">A3</div>
-          <div class="anchor a4">A4</div>
-          <div class="map-label north">N</div>
+        <div id="floorMap" class="floor-map real-floor-map">
+          <img class="floor-plan-image" src="/dashboard/south_block_map.svg" alt="South Block ground floor plan">
+          <div class="map-overlay"></div>
         </div>
         <div class="legend">
           <span><i class="legend-dot asset"></i> Asset</span>
           <span><i class="legend-dot anchor"></i> ESP32 Anchor</span>
           <span><i class="legend-box restricted"></i> Restricted zone</span>
+          <span>Map: South Block only</span>
         </div>
       </article>
 
