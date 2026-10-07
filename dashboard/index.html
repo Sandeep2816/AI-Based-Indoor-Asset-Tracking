@@ -1,35 +1,86 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Indoor Asset Tracking</title>
-  <link rel="stylesheet" href="/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Indoor Asset Tracking | Live Dashboard</title>
+  <link rel="stylesheet" href="/dashboard/style.css">
 </head>
 <body>
-  <header>
+  <header class="topbar">
     <div>
+      <p class="eyebrow">FINAL-YEAR PROJECT • ESP32 + BLE + MQTT</p>
       <h1>Indoor Asset Tracking</h1>
-      <p>ESP32 BLE + MQTT + RSSI positioning</p>
+      <p class="subtitle">Real-time asset localization and geofencing</p>
     </div>
-    <span id="status">Connecting...</span>
+    <div class="connection">
+      <span id="statusDot" class="dot offline"></span>
+      <span id="statusText">Connecting...</span>
+    </div>
   </header>
-  <main>
-    <section class="floor">
-      <h2>Floor Map</h2>
-      <div id="map" class="map">
-        <div class="anchor a1">A1</div>
-        <div class="anchor a2">A2</div>
-        <div class="anchor a3">A3</div>
-        <div class="anchor a4">A4</div>
-      </div>
+
+  <main class="container">
+    <section class="stats">
+      <article class="stat-card"><span>Tracked assets</span><strong id="assetCount">0</strong></article>
+      <article class="stat-card"><span>Active anchors</span><strong id="anchorCount">0</strong></article>
+      <article class="stat-card"><span>Updates</span><strong id="updateCount">0</strong></article>
+      <article class="stat-card"><span>Geofence alerts</span><strong id="alertCount">0</strong></article>
     </section>
-    <section class="panel">
-      <h2>Tracked Assets</h2>
-      <div id="assets"></div>
+
+    <section class="grid">
+      <article class="panel map-panel">
+        <div class="panel-head">
+          <div>
+            <h2>Live Floor Map</h2>
+            <p>10 m × 8 m simulated floor area</p>
+          </div>
+          <span class="badge" id="lastUpdate">Waiting for data</span>
+        </div>
+        <div id="floorMap" class="floor-map">
+          <div class="zone storage-zone"><span>STORAGE</span></div>
+          <div class="zone restricted-zone"><span>RESTRICTED</span></div>
+          <div class="anchor a1">A1</div>
+          <div class="anchor a2">A2</div>
+          <div class="anchor a3">A3</div>
+          <div class="anchor a4">A4</div>
+          <div class="map-label north">N</div>
+        </div>
+        <div class="legend">
+          <span><i class="legend-dot asset"></i> Asset</span>
+          <span><i class="legend-dot anchor"></i> ESP32 Anchor</span>
+          <span><i class="legend-box restricted"></i> Restricted zone</span>
+        </div>
+      </article>
+
+      <aside class="panel assets-panel">
+        <div class="panel-head">
+          <div><h2>Tracked Assets</h2><p>Live position and signal state</p></div>
+        </div>
+        <div id="assetList" class="asset-list">
+          <div class="empty">No assets detected yet.</div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="grid lower">
+      <article class="panel">
+        <div class="panel-head"><div><h2>Movement History</h2><p>Latest recorded positions</p></div></div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Time</th><th>Asset</th><th>X</th><th>Y</th><th>Method</th></tr></thead>
+            <tbody id="historyBody"><tr><td colspan="5" class="empty">No history available.</td></tr></tbody>
+          </table>
+        </div>
+      </article>
+
+      <article class="panel alerts-panel">
+        <div class="panel-head"><div><h2>Geofence Monitor</h2><p>Zone entry status</p></div></div>
+        <div id="alertList" class="alert-list"><div class="empty">No alerts.</div></div>
+      </article>
     </section>
   </main>
-  <script src="https://cdn.socket.io/4.8.1/socket.io.min.js"></script>
-  <script src="/app.js"></script>
+
+  <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+  <script src="/dashboard/app.js"></script>
 </body>
 </html>
