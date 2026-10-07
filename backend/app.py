@@ -1,0 +1,27 @@
+from flask import Flask, jsonify, send_from_directory
+from flask_socketio import SocketIO
+from mqtt_client import get_latest, set_update_callback, start_mqtt
+
+app = Flask(__name__, static_folder="../dashboard")
+socketio = SocketIO(app, cors_allowed_origins="*")
+
+@app.get("/")
+def index():
+    return send_from_directory("../dashboard", "index.html")
+
+@app.get("/api/assets")
+def assets():
+    return jsonify(list(get_latest().values()))
+
+def broadcast_update(asset):
+    socketio.emit("asset_update", asset)
+
+if __name__ == "__main__":
+    set_update_callback(broadcast_update)
+    try:
+        start_mqtt()
+        print("MQTT listener started.")
+    except Exception as exc:
+        print(f"MQTT unavailable: {exc}")
+        print("Start Mosquitto and restart the application.")
+    socketio.run(app, host="0.0.0.0", port=5000, debug=True)
